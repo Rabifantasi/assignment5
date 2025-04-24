@@ -1,17 +1,17 @@
-# secure_vault.py
+
 import streamlit as st
 import hashlib
 import json
 from cryptography.fernet import Fernet
 
-# --- Initial Setup ---
+
 st.set_page_config(
     page_title="Secure Vault",
     page_icon="🔒",
     layout="centered"
 )
 
-# --- Tailwind CSS Integration ---
+
 st.markdown("""
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -29,7 +29,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- Security Setup ---
 def load_key():
     try:
         with open("secret.key", "rb") as f:
@@ -43,14 +42,12 @@ def load_key():
 KEY = load_key()
 cipher = Fernet(KEY)
 
-# --- Session State ---
 if 'stored_data' not in st.session_state:
     st.session_state.stored_data = {}
 
 if 'failed_attempts' not in st.session_state:
     st.session_state.failed_attempts = 0
 
-# --- Security Functions ---
 def hash_passkey(passkey: str) -> str:
     return hashlib.pbkdf2_hmac(
         'sha256',
@@ -65,7 +62,6 @@ def encrypt_data(text: str) -> str:
 def decrypt_data(encrypted_text: str) -> str:
     return cipher.decrypt(encrypted_text.encode()).decode()
 
-# --- UI Components ---
 def main_container():
     st.markdown("""
     <div class="min-h-screen bg-gray-50 py-8">
@@ -81,7 +77,6 @@ def footer():
     </div>
     """, unsafe_allow_html=True)
 
-# --- Main App ---
 def main():
     main_container()
     
